@@ -33,20 +33,25 @@ class DeviceViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def get_devices_by_type(self, request, pk=None, *args, **kwargs):
-        instance = Device.objects.filter(type_device=pk)
+        try:
+            instance = Device.objects.filter(type_device=pk)
         
-        list_instances = []
+            list_instances = []
 
-        for record in instance:
-            list_instances.append({
-                "id": record.id,
-                "name": record.name,
-                "type_device": record.type_device.type_device,
-                "actual_power":record.actual_power,
-                "status_device": record.status_device.status_device,
-                })
+            for record in instance:
+                list_instances.append({
+                    "id": record.id,
+                    "name": record.name,
+                    "type_device": record.type_device.type_device,
+                    "actual_power":record.actual_power,
+                    "status_device": record.status_device.status_device,
+                    })
+            
+            return Response(list_instances)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(list_instances)
+        
 
 class ListStatusDeviceViewSet(generics.ListAPIView):
     queryset = StatusDevice.objects.all()
@@ -71,29 +76,35 @@ class BinnacleViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def get_records_by_device(self, request, pk=None, *args, **kwargs):
-        instance = Binnacle.objects.filter(device=pk)
+        try:
+            instance = Binnacle.objects.filter(device=pk)
 
-        list_binnacle = []
+            list_binnacle = []
 
-        for record in instance:
-            list_binnacle.appen({
-                "id":record.id,
-                "device": record.device.name,
-                "actual_power": record.actual_power,
-                "date":record.date,
-            })
+            for record in instance:
+                list_binnacle.appen({
+                    "id":record.id,
+                    "device": record.device.name,
+                    "actual_power": record.actual_power,
+                    "date":record.date,
+                })
 
-        return Response(list_binnacle)
+            return Response(list_binnacle)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=True, methods=["get"])
     def get_power_by_device(self, request, pk=None, *args, **kwargs):
-        instance = Binnacle.objects.filter(device=pk)
-        energy = 0
+        try:
+            instance = Binnacle.objects.filter(device=pk)
+            energy = 0
 
-        for record in instance:
-            energy += float(record.actual_power)
+            for record in instance:
+                energy += float(record.actual_power)
 
-        return Response({
-            "device": instance.device.name,
-            "total_energy": energy,
-        })
+            return Response({
+                "device": instance.device.name,
+                "total_energy": energy,
+            })
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
