@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Device, TypeDevice, StatusDevice
+from .models import Device, TypeDevice, StatusDevice, Binnacle
 
 
 class DeviceSerializer(serializers.ModelSerializer):
@@ -14,6 +14,7 @@ class DeviceSerializer(serializers.ModelSerializer):
             "actual_power",
             "status_device",
         )
+
 
 class StatusDeviceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,4 +31,15 @@ class TypeDeviceSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "type_device",
+        )
+
+
+class BinnacleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Binnacle
+        fields = (
+            "id",
+            "device",
+            "actual_power",
+            "date",
         )
