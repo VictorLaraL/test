@@ -1,0 +1,1 @@
+web: gunicorn power_plant.wsgi --log-file -
