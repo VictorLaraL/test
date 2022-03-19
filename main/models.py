@@ -46,3 +46,9 @@ class Binnacle(models.Model):
     class Meta:
         ordering = ["device"]
 
+class Maintenance(models.Model):
+    device = device = models.ForeignKey("Device", on_delete=models.CASCADE)
+    date = models.DateTimeField()
+
+    class Meta:
+        ordering = ["device"]

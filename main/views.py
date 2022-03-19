@@ -1,9 +1,7 @@
-from urllib import response
-from django.http import JsonResponse
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, status
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .models import Binnacle, Device, StatusDevice, TypeDevice
+from .models import Binnacle, Device, StatusDevice, TypeDevice, Maintenance
 from .serializers import (
     DeviceSerializer,
     StatusDeviceSerializer,
@@ -12,6 +10,7 @@ from .serializers import (
 )
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.utils import timezone
 
 
 class DeviceViewSet(viewsets.ModelViewSet):
@@ -20,6 +19,17 @@ class DeviceViewSet(viewsets.ModelViewSet):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ["name"]
     pagination_class = PageNumberPagination
+
+    def update(self, request, pk=None, *args, **kwargs): 
+        try:
+            if request.data.status_device == 2:
+                actual_device = Device.objects.get(pk=pk)
+                Maintenance.objects.create(device=actual_device, date=timezone.now())
+
+            return super().update(request, *args, **kwargs)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
 
     @action(detail=True, methods=["get"])
     def get_devices_by_type(self, request, pk=None, *args, **kwargs):
