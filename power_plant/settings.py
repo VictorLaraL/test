@@ -82,10 +82,11 @@ USE_DB_URL=eval(env('USE_DB_URL'))
 
 if USE_DB_URL:
     import dj_database_url
-
+    from decouple import config
+    
     DATABASES = {
         'default': dj_database_url.config(
-            default=env('DB_URL')
+            default=config('DATABASE_URL')
         )
     }
 
