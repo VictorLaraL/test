@@ -34,6 +34,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'drf_yasg',
     'rest_framework',
+    'paranoid_model'
 ]
 
 LOCAL_APPS = [
