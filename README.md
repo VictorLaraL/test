@@ -25,3 +25,5 @@ Python 3.8.8
 * La documentacion del Swagger esta en el puerto: http://localhost:8000/, ahi dentro estan los endpoints que se solicitaron.
 
 * El diagrama de entidades y relaciones esta en la carpeta raiz como Test.draw.pdf
+
+* El deploy del examen se encuentra en la liga: https://testpowerplant.herokuapp.com/
